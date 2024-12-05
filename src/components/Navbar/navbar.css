@@ -47,7 +47,6 @@
 .navbar-toggler span:nth-child(1),
 .navbar-toggler span:nth-child(3) {
   transition: transform 0.35s ease-in-out !important;
-  transition: transform 0.35s ease-in-out !important;
 }
 
 .navbar-toggler:not(.collapsed) span:nth-child(1) {
@@ -178,14 +177,26 @@
     width: 25px !important;
     height: 3px !important;
   }
+  
   ion-icon {
     font-size: 20px;
   }
 
+  .navbar-logo {
+    text-decoration: none !important;
+  }
+  
+  .navbar-logo h1 {
+    margin: 0; 
+    text-decoration: none !important; 
+  }
+  
   .logo {
     font-size: 20px;
+    text-decoration: none !important; 
   }
-
+  
+  
   .expanded-cart {
     display: none !important;
   }
@@ -195,5 +206,4 @@
     align-items: flex-end;
     gap: 5px;
   }
-  
 }

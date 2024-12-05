@@ -7,12 +7,20 @@ import "./product-details.css";
 
 const ProductDetails = ({ selectedProduct }) => {
   const dispatch = useDispatch();
-
   const [quantity, setQuantity] = useState(1);
+
+  // Ensure quantity cannot be less than 1
   const handleQuantityChange = (e) => {
-    setQuantity(e.target.value);
+    const value = parseInt(e.target.value, 10);
+    if (value >= 1) {
+      setQuantity(value);
+    } else {
+      toast.error("Quantity must be at least 1.");
+      setQuantity(1); // Reset to 1 if invalid input
+    }
   };
-  const handelAdd = (selectedProduct, quantity) => {
+
+  const handleAdd = (selectedProduct, quantity) => {
     dispatch(addToCart({ product: selectedProduct, num: quantity }));
     toast.success("Product has been added to cart!");
   };
@@ -38,7 +46,7 @@ const ProductDetails = ({ selectedProduct }) => {
             </div>
             <div className="info">
               <span className="price">${selectedProduct?.price}</span>
-              <span>category:{selectedProduct?.category}</span>
+              <span>category: {selectedProduct?.category}</span>
             </div>
             <p>{selectedProduct?.shortDesc}</p>
             <input
@@ -46,13 +54,14 @@ const ProductDetails = ({ selectedProduct }) => {
               type="number"
               placeholder="Qty"
               value={quantity}
+              min="1"
               onChange={handleQuantityChange}
             />
             <button
               aria-label="Add"
               type="submit"
               className="add"
-              onClick={() => handelAdd(selectedProduct, quantity)}
+              onClick={() => handleAdd(selectedProduct, quantity)}
             >
               Add To Cart
             </button>

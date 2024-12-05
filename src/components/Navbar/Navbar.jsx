@@ -1,38 +1,45 @@
 import { useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import "./navbar.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "./navbar.css";
+
 const NavBar = () => {
   const { cartList } = useSelector((state) => state.cart);
   const [expand, setExpand] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
-  // fixed Header
-  function scrollHandler() {
+
+  // Handle scroll for sticky navbar
+  const scrollHandler = () => {
     if (window.scrollY >= 100) {
       setIsFixed(true);
     } else if (window.scrollY <= 50) {
       setIsFixed(false);
     }
-  }
-  window.addEventListener("scroll", scrollHandler);
-  // useEffect(()=> {
-  //   if(CartItem.length ===0) {
-  //     const storedCart = localStorage.getItem("cartItem");
-  //     setCartItem(JSON.parse(storedCart));
-  //   }
-  // },[])
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollHandler);
+
+    return () => {
+      window.removeEventListener("scroll", scrollHandler);
+    };
+  }, []);
+
   return (
     <Navbar
       fixed="top"
       expand="md"
-      className={isFixed ? "navbar fixed" : "navbar"}
+      className={isFixed ? "navbar fixed" : "navbar"} // Apply fixed class when scrolled
     >
       <Container className="navbar-container">
-        <Navbar.Brand to="/">
-          <ion-icon name="bag"></ion-icon>
-          <h1 className="logo">E Commerce</h1>
+        <Navbar.Brand>
+            <ion-icon name="bag"></ion-icon>
+          <Link to="/" className="navbar-logo">
+            <h1 className="logo">E-commerce App</h1>
+          </Link>
         </Navbar.Brand>
+
         {/* Media cart and toggle */}
         <div className="d-flex">
           <div className="media-cart">
@@ -64,17 +71,17 @@ const NavBar = () => {
               </svg>
             </Link>
           </div>
+
           <Navbar.Toggle
             aria-controls="basic-navbar-nav"
-            onClick={() => {
-              setExpand(expand ? false : "expanded");
-            }}
+            onClick={() => setExpand(!expand)} // Toggle expand on mobile
           >
             <span></span>
             <span></span>
             <span></span>
           </Navbar.Toggle>
         </div>
+
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-end flex-grow-1 pe-3">
             <Nav.Item>
@@ -109,6 +116,7 @@ const NavBar = () => {
                 <span className="nav-link-label">Cart</span>
               </Link>
             </Nav.Item>
+
             <Nav.Item className="expanded-cart">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
